@@ -13,17 +13,11 @@ import { config } from '../../../../config/config';
 const router: Router = Router();
 
 async function generatePassword(plainTextPassword: string): Promise<string> {
-    return bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(plainTextPassword, salt, function(err, hash) {
-            return hash;
-        });
-    });
+    return await bcrypt.hash(plainTextPassword, 10);
 }
 
 async function comparePasswords(plainTextPassword: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(plainTextPassword, hash, function(err, result) {
-        return result;
-    });
+    return bcrypt.compare(plainTextPassword, hash);
 }
 
 function generateJWT(user: User): string {
