@@ -16,14 +16,15 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.get( "/filteredimage", async ( req, res ) => {
     let { image_url } = req.query;
     if(!image_url) { // just check if image_url exist and has value
-      return res.status(400).send("You need to send a public image_url valid!");
+      return res.status(404).send("You need to send a public image_url valid!");
     }
     let fileImage: string;
     try {   
       fileImage = await filterImageFromURL(image_url);
-      res.sendFile(fileImage, ()=> {deleteLocalFiles([fileImage])});
+      res.sendFile(fileImage, //()=> {deleteLocalFiles([fileImage])}
+        );
     } catch (e) {
-      res.status(400).send(e);
+      res.status(422).send(e);
     }
   } );
   
